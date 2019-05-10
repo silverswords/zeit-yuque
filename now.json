@@ -3,5 +3,9 @@
     "name": "go",
     "builds": [
         { "src": "*.go", "use": "@now/go" }
+    ],
+    "routes": [
+        { "src": "/greeting", "dest": "/greeting.go" },
+        { "src": "/version", "dest": "/version.go" }
     ]
 }
