@@ -19,12 +19,8 @@ func BookList(w http.ResponseWriter, r *http.Request) {
 	var book = make(map[string]string)
 
 	repoid := r.FormValue("RepoID")
-	token := r.FormValue("Token")
-
 	host := "https://www.yuque.com"
 	url := host + "/api/v2/repos/" + repoid + "/docs/"
-
-	client := &http.Client{}
 
 	request, err := http.NewRequest("GET", url, nil)
 	if err != nil {
@@ -32,8 +28,10 @@ func BookList(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	request.Header.Add("X-Auth-Token", token)
+	Token := r.Header
+	request.Header.Add("X-Auth-Token", Token["X-Auth-Token"][0])
 
+	client := &http.Client{}
 	response, err := client.Do(request)
 	if err != nil {
 		log.Println(err)
@@ -50,6 +48,12 @@ func BookList(w http.ResponseWriter, r *http.Request) {
 	err = json.Unmarshal(body, &List)
 	if err != nil {
 		log.Println(err)
+		return
+	}
+
+	if List.Data == nil {
+		log.Println("Body is nil")
+		fmt.Fprintf(w, "ERROR:%s", "Body is nil")
 		return
 	}
 

@@ -18,24 +18,25 @@ var Details struct {
 func BookDetail(w http.ResponseWriter, r *http.Request) {
 	repoid := r.FormValue("RepoID")
 	id := r.FormValue("ID")
-	token := r.FormValue("Token")
 
 	host := "https://www.yuque.com"
 	url := host + "/api/v2/repos/" + repoid + "/docs/" + id + "?raw=0"
 
-	client := &http.Client{}
-
 	request, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		log.Println(err)
+		fmt.Fprintf(w, "ERROR:%s", err)
 		return
 	}
 
-	request.Header.Add("X-Auth-Token", token)
+	Token := r.Header
+	request.Header.Add("X-Auth-Token", Token["X-Auth-Token"][0])
 
+	client := &http.Client{}
 	response, err := client.Do(request)
 	if err != nil {
 		log.Println(err)
+		fmt.Fprintf(w, "ERROR:%s", err)
 		return
 	}
 	defer response.Body.Close()
@@ -43,14 +44,25 @@ func BookDetail(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		log.Println(err)
+		fmt.Fprintf(w, "ERROR:%s", err)
 		return
 	}
 
 	err = json.Unmarshal(body, &Details)
 	if err != nil {
 		log.Println(err)
+		fmt.Fprintf(w, "ERROR:%s", err)
+		return
 	}
-	fmt.Fprintf(w, "%v", Details)
+
+	if Details.Data.Body == "" {
+		log.Println("Body is nil")
+		fmt.Fprintf(w, "ERROR:%s", "Body is nil")
+		return
+	}
+
+	fmt.Fprintf(w, "%s", Details.Data.Body)
+	fmt.Fprintf(w, "****%s****", Details.Data.PublishedAt)
 }
 
 // Abilities -
