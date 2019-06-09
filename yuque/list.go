@@ -25,6 +25,7 @@ func BookList(w http.ResponseWriter, r *http.Request) {
 	request, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		log.Println(err)
+		fmt.Fprintf(w, "ERROR:%s", err)
 		return
 	}
 
@@ -35,6 +36,7 @@ func BookList(w http.ResponseWriter, r *http.Request) {
 	response, err := client.Do(request)
 	if err != nil {
 		log.Println(err)
+		fmt.Fprintf(w, "ERROR:%s", err)
 		return
 	}
 	defer response.Body.Close()
@@ -42,12 +44,14 @@ func BookList(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		log.Println(err)
+		fmt.Fprintf(w, "ERROR:%s", err)
 		return
 	}
 
 	err = json.Unmarshal(body, &List)
 	if err != nil {
 		log.Println(err)
+		fmt.Fprintf(w, "ERROR:%s", err)
 		return
 	}
 

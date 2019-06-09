@@ -16,7 +16,8 @@ var Repo struct {
 // Repostory -
 func Repostory(w http.ResponseWriter, r *http.Request) {
 	var book = make(map[string]int64)
-	id := r.FormValue("RepoID")
+	id := r.FormValue("GroupID")
+	name := r.FormValue("RepoName")
 
 	Token := r.Header
 
@@ -64,12 +65,10 @@ func Repostory(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for _, q := range Repo.Data {
-
 		book[q.Name] = q.ID
 	}
-	fmt.Println(book)
 
-	fmt.Fprintf(w, "%v", book)
+	fmt.Fprintf(w, "%d", book[name])
 }
 
 // Book -
