@@ -18,7 +18,6 @@ var Details struct {
 func BookDetail(w http.ResponseWriter, r *http.Request) {
 	repoid := r.FormValue("RepoID")
 	id := r.FormValue("ID")
-
 	host := "https://www.yuque.com"
 	url := host + "/api/v2/repos/" + repoid + "/docs/" + id + "?raw=0"
 
@@ -61,8 +60,9 @@ func BookDetail(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Fprintf(w, "%s", Details.Data.Body)
-	fmt.Fprintf(w, "****%s****", Details.Data.PublishedAt)
+	//fmt.Fprintf(w, "%s", Details.Data.Body)
+	//fmt.Fprintf(w, "****%s****", Details.Data.PublishedAt)
+	jsonServer(http.StatusOK, H{"GroupRepo": Details.Data.Body}, w)
 }
 
 // Abilities -

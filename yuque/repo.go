@@ -18,15 +18,13 @@ func Repostory(w http.ResponseWriter, r *http.Request) {
 	var book = make(map[string]int64)
 	id := r.FormValue("GroupID")
 	name := r.FormValue("RepoName")
-
-	Token := r.Header
-
 	host := "https://www.yuque.com"
 	url := host + "/api/v2/groups/" + id + "/repos/"
 	fmt.Println(url)
 
 	client := &http.Client{}
 
+	Token := r.Header
 	request, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		log.Println(err)

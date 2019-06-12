@@ -66,7 +66,8 @@ func BookList(w http.ResponseWriter, r *http.Request) {
 		book[v.Title] = bookID
 	}
 
-	fmt.Fprintf(w, "%v", book)
+	jsonServer(http.StatusOK, H{"GroupRepo": book}, w)
+	//fmt.Fprintf(w, "%v", book)
 }
 
 // Books -

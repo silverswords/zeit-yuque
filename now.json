@@ -1,14 +1,12 @@
 {
     "version": 2,
-    "name": "go",
+    "name": "yuque",
     "builds": [
-        { "src": "example/*.go", "use": "@now/go" }
+        { "src": "yuque/*.go", "use": "@now/go" }
     ],
     "routes": [
-        { "src": "/api/greeting", "dest": "/example/greeting.go" },
-        { "src": "/api/version", "dest": "/example/version.go" },
-        { "src": "/yuque/list", "dest": "/yuque/list.go" },
-        { "src": "/yuque/details", "dest": "/yuque/details.go" },
-        { "src": "/yuque/repo", "dest": "/yuque/repo.go" }
+        { "src": "/api/v1/yuque/list", "dest": "/yuque/list.go" },
+        { "src": "/api/v1//yuque/details", "dest": "/yuque/details.go" },
+        { "src": "/api/v1/yuque/repo", "dest": "/yuque/repo.go" }
     ]
 }
