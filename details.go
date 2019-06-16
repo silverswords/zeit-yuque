@@ -3,9 +3,10 @@ package handler
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"log"
 	"net/http"
+
+	core "github.com/silverswords/clouds"
+	pub "github.com/silverswords/zeit-yuque/public"
 )
 
 // Details -
@@ -16,53 +17,41 @@ var Details struct {
 
 // BookDetail -
 func BookDetail(w http.ResponseWriter, r *http.Request) {
-	repoid := r.FormValue("RepoID")
-	id := r.FormValue("ID")
-	host := "https://www.yuque.com"
-	url := host + "/api/v2/repos/" + repoid + "/docs/" + id + "?raw=0"
+	var (
+		yuque struct {
+			RepoID string `zeit:"required"`
+			ID     string `zeit:"required"`
+		}
+	)
 
-	request, err := http.NewRequest("GET", url, nil)
+	c := pub.NewContext(w, r)
+	err := c.BindJSON(&yuque)
 	if err != nil {
-		log.Println(err)
-		fmt.Fprintf(w, "ERROR:%s", err)
+		c.WriteJSON(http.StatusBadRequest, pub.H{"status": http.StatusBadRequest})
 		return
 	}
 
-	Token := r.Header
-	request.Header.Add("X-Auth-Token", Token["X-Auth-Token"][0])
-
-	client := &http.Client{}
-	response, err := client.Do(request)
+	err = core.Validate(&yuque)
 	if err != nil {
-		log.Println(err)
-		fmt.Fprintf(w, "ERROR:%s", err)
+		c.WriteJSON(http.StatusNotAcceptable, pub.H{"status": http.StatusNotAcceptable})
 		return
 	}
-	defer response.Body.Close()
 
-	body, err := ioutil.ReadAll(response.Body)
+	url := fmt.Sprintf(pub.DetailURL, yuque.RepoID, yuque.ID)
+
+	body, err := c.CallAPI(url)
 	if err != nil {
-		log.Println(err)
-		fmt.Fprintf(w, "ERROR:%s", err)
+		c.WriteJSON(http.StatusRequestTimeout, pub.H{"status": http.StatusRequestTimeout})
 		return
 	}
 
 	err = json.Unmarshal(body, &Details)
 	if err != nil {
-		log.Println(err)
-		fmt.Fprintf(w, "ERROR:%s", err)
+		c.WriteJSON(http.StatusBadRequest, pub.H{"status": http.StatusBadRequest})
 		return
 	}
 
-	if Details.Data.Body == "" {
-		log.Println("Body is nil")
-		fmt.Fprintf(w, "ERROR:%s", "Body is nil")
-		return
-	}
-
-	//fmt.Fprintf(w, "%s", Details.Data.Body)
-	//fmt.Fprintf(w, "****%s****", Details.Data.PublishedAt)
-	jsonServer(http.StatusOK, H{"GroupRepo": Details.Data.Body}, w)
+	c.WriteJSON(http.StatusOK, pub.H{"status": http.StatusOK, "GroupRepo": string(body)})
 }
 
 // Abilities -

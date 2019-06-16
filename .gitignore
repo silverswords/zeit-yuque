@@ -10,4 +10,5 @@
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
-yuque/.DS_Store
+
+*.DS_Store

@@ -3,10 +3,10 @@ package handler
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"log"
 	"net/http"
-	"strconv"
+
+	core "github.com/silverswords/clouds"
+	pub "github.com/silverswords/zeit-yuque/public"
 )
 
 // List -
@@ -16,58 +16,40 @@ var List struct {
 
 // BookList -
 func BookList(w http.ResponseWriter, r *http.Request) {
-	var book = make(map[string]string)
+	var (
+		yuque struct {
+			RepoID string `zeit:"required"`
+		}
+	)
 
-	repoid := r.FormValue("RepoID")
-	host := "https://www.yuque.com"
-	url := host + "/api/v2/repos/" + repoid + "/docs/"
-
-	request, err := http.NewRequest("GET", url, nil)
+	c := pub.NewContext(w, r)
+	err := c.BindJSON(&yuque)
 	if err != nil {
-		log.Println(err)
-		fmt.Fprintf(w, "ERROR:%s", err)
+		c.WriteJSON(http.StatusBadRequest, pub.H{"status": http.StatusBadRequest})
 		return
 	}
 
-	Token := r.Header
-	request.Header.Add("X-Auth-Token", Token["X-Auth-Token"][0])
-
-	client := &http.Client{}
-	response, err := client.Do(request)
+	err = core.Validate(&yuque)
 	if err != nil {
-		log.Println(err)
-		fmt.Fprintf(w, "ERROR:%s", err)
+		c.WriteJSON(http.StatusNotAcceptable, pub.H{"status": http.StatusNotAcceptable})
 		return
 	}
-	defer response.Body.Close()
 
-	body, err := ioutil.ReadAll(response.Body)
+	url := fmt.Sprintf(pub.ListURL, yuque.RepoID)
+
+	body, err := c.CallAPI(url)
 	if err != nil {
-		log.Println(err)
-		fmt.Fprintf(w, "ERROR:%s", err)
+		c.WriteJSON(http.StatusRequestTimeout, pub.H{"status": http.StatusRequestTimeout})
 		return
 	}
 
 	err = json.Unmarshal(body, &List)
 	if err != nil {
-		log.Println(err)
-		fmt.Fprintf(w, "ERROR:%s", err)
+		c.WriteJSON(http.StatusForbidden, pub.H{"status": http.StatusForbidden})
 		return
 	}
 
-	if List.Data == nil {
-		log.Println("Body is nil")
-		fmt.Fprintf(w, "ERROR:%s", "Body is nil")
-		return
-	}
-
-	for _, v := range List.Data {
-		bookID := strconv.FormatInt(v.ID, 10)
-		book[v.Title] = bookID
-	}
-
-	jsonServer(http.StatusOK, H{"GroupRepo": book}, w)
-	//fmt.Fprintf(w, "%v", book)
+	c.WriteJSON(http.StatusOK, pub.H{"status": http.StatusOK, "List": string(body)})
 }
 
 // Books -
