@@ -1,4 +1,4 @@
-package yuque
+package base
 
 var (
 	// DetailURL -
