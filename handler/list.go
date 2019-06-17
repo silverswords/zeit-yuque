@@ -1,12 +1,12 @@
-package handler
+package yuque
 
 import (
 	"encoding/json"
 	"fmt"
 	"net/http"
 
-	core "github.com/silverswords/clouds"
-	pub "github.com/silverswords/zeit-yuque/public"
+	core "github.com/silverswords/clouds/context"
+	base "github.com/silverswords/zeit-yuque"
 )
 
 // List -
@@ -22,34 +22,34 @@ func BookList(w http.ResponseWriter, r *http.Request) {
 		}
 	)
 
-	c := pub.NewContext(w, r)
+	c := core.NewContext(w, r)
 	err := c.BindJSON(&yuque)
 	if err != nil {
-		c.WriteJSON(http.StatusBadRequest, pub.H{"status": http.StatusBadRequest})
+		c.WriteJSON(http.StatusBadRequest, core.H{"status": http.StatusBadRequest})
 		return
 	}
 
 	err = core.Validate(&yuque)
 	if err != nil {
-		c.WriteJSON(http.StatusNotAcceptable, pub.H{"status": http.StatusNotAcceptable})
+		c.WriteJSON(http.StatusNotAcceptable, core.H{"status": http.StatusNotAcceptable})
 		return
 	}
 
-	url := fmt.Sprintf(pub.ListURL, yuque.RepoID)
+	url := fmt.Sprintf(base.ListURL, yuque.RepoID)
 
 	body, err := c.CallAPI(url)
 	if err != nil {
-		c.WriteJSON(http.StatusRequestTimeout, pub.H{"status": http.StatusRequestTimeout})
+		c.WriteJSON(http.StatusRequestTimeout, core.H{"status": http.StatusRequestTimeout})
 		return
 	}
 
 	err = json.Unmarshal(body, &List)
 	if err != nil {
-		c.WriteJSON(http.StatusForbidden, pub.H{"status": http.StatusForbidden})
+		c.WriteJSON(http.StatusForbidden, core.H{"status": http.StatusForbidden})
 		return
 	}
 
-	c.WriteJSON(http.StatusOK, pub.H{"status": http.StatusOK, "List": string(body)})
+	c.WriteJSON(http.StatusOK, core.H{"status": http.StatusOK, "List": List})
 }
 
 // Books -
