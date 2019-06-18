@@ -17,23 +17,24 @@ func BookList(w http.ResponseWriter, r *http.Request) {
 	)
 
 	c := con.NewContext(w, r)
-	if err := c.BindJSON(&yuque); err != nil {
-		c.WriteJSON(http.StatusBadRequest, con.H{"status": http.StatusBadRequest})
+	if err := c.ShouldBind(&yuque); err != nil {
+		c.WriteJSON(http.StatusNotAcceptable, con.H{"status": http.StatusNotAcceptable})
 		return
 	}
 
 	if err := core.Validate(&yuque); err != nil {
-		c.WriteJSON(http.StatusNotAcceptable, con.H{"status": http.StatusNotAcceptable})
+		c.WriteJSON(http.StatusConflict, con.H{"status": http.StatusConflict})
 		return
 	}
 
 	Token := c.Request.Header
 	s := service.NewService(Token["X-Auth-Token"][0])
+
 	resp, err := s.List(yuque.RepoID)
 	if err != nil {
-		c.WriteJSON(http.StatusNotAcceptable, con.H{"status": http.StatusNotAcceptable})
+		c.WriteJSON(http.StatusRequestTimeout, con.H{"status": http.StatusRequestTimeout})
 		return
 	}
 
-	c.WriteJSON(http.StatusOK, con.H{"status": http.StatusOK, "List": resp})
+	c.WriteJSON(http.StatusOK, con.H{"status": http.StatusOK, "list": resp})
 }
