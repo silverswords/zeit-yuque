@@ -2,11 +2,11 @@
     "version": 2,
     "name": "yuque",
     "builds": [
-        { "src": "handler/*.go", "use": "@now/go" }
+        { "src": "/*.go", "use": "@now/go" }
     ],
     "routes": [
-        { "src": "/api/v1/yuque/list", "dest": "handler/list.go" },
-        { "src": "/api/v1/yuque/details", "dest": "handler/details.go" },
-        { "src": "/api/v1/yuque/repo", "dest": "handler/repo.go" }
+        { "src": "/api/v1/yuque/list", "dest": "/list.go" },
+        { "src": "/api/v1/yuque/details", "dest": "/details.go" },
+        { "src": "/api/v1/yuque/repo", "dest": "/repo.go" }
     ]
 }
