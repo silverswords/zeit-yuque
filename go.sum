@@ -1,0 +1,6 @@
+github.com/silverswords/clouds v0.0.0-20190618070154-dffc20cf919c h1:zTL0dRSI0b6ZLWA7s4hr8myvSaLAbZJZzJxiSspvLes=
+github.com/silverswords/clouds v0.0.0-20190618070154-dffc20cf919c/go.mod h1:hU6wzt+Zvj6qOXy4DCYUdg39/7vAOf163uLlXinmA90=
+gopkg.in/go-playground/assert.v1 v1.2.1 h1:xoYuJVE7KT85PYWrN730RguIQO0ePzVRfFMXadIrXTM=
+gopkg.in/go-playground/assert.v1 v1.2.1/go.mod h1:9RXL0bg/zibRAgZUYszZSwO/z8Y/a8bDuhia5mkpMnE=
+gopkg.in/go-playground/validator.v8 v8.18.2 h1:lFB4DoMU6B626w8ny76MV7VX6W2VHct2GVOI3xgiMrQ=
+gopkg.in/go-playground/validator.v8 v8.18.2/go.mod h1:RX2a/7Ha8BgOhfk7j780h4/u/RRjR0eouCJSH80/M2Y=

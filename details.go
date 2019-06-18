@@ -4,7 +4,8 @@ import (
 	"net/http"
 
 	service "github.com/silverswords/clouds/openapi/yuque"
-	core "github.com/silverswords/clouds/pkgs/http/context"
+	core "github.com/silverswords/clouds/pkgs/http"
+	con "github.com/silverswords/clouds/pkgs/http/context"
 )
 
 // BookDetail -
@@ -16,16 +17,16 @@ func BookDetail(w http.ResponseWriter, r *http.Request) {
 		}
 	)
 
-	c := core.NewContext(w, r)
+	c := con.NewContext(w, r)
 	err := c.BindJSON(&yuque)
 	if err != nil {
-		c.WriteJSON(http.StatusBadRequest, core.H{"status": http.StatusBadRequest})
+		c.WriteJSON(http.StatusBadRequest, con.H{"status": http.StatusBadRequest})
 		return
 	}
 
 	err = core.Validate(&yuque)
 	if err != nil {
-		c.WriteJSON(http.StatusRequestTimeout, core.H{"status": http.StatusRequestTimeout})
+		c.WriteJSON(http.StatusRequestTimeout, con.H{"status": http.StatusRequestTimeout})
 		return
 	}
 
@@ -33,9 +34,9 @@ func BookDetail(w http.ResponseWriter, r *http.Request) {
 	s := service.NewService(Token["X-Auth-Token"][0])
 	resp, err := s.Details(yuque.RepoID, yuque.ID)
 	if err != nil {
-		c.WriteJSON(http.StatusNotAcceptable, core.H{"status": err, "token": s.Token})
+		c.WriteJSON(http.StatusNotAcceptable, con.H{"status": err, "token": s.Token})
 		return
 	}
 
-	c.WriteJSON(http.StatusOK, core.H{"status": http.StatusOK, "GroupRepo": resp})
+	c.WriteJSON(http.StatusOK, con.H{"status": http.StatusOK, "GroupRepo": resp})
 }

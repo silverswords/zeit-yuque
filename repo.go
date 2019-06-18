@@ -4,7 +4,8 @@ import (
 	"net/http"
 
 	service "github.com/silverswords/clouds/openapi/yuque"
-	core "github.com/silverswords/clouds/pkgs/http/context"
+	core "github.com/silverswords/clouds/pkgs/http"
+	con "github.com/silverswords/clouds/pkgs/http/context"
 )
 
 // Repostory -
@@ -15,16 +16,16 @@ func Repostory(w http.ResponseWriter, r *http.Request) {
 		}
 	)
 
-	c := core.NewContext(w, r)
+	c := con.NewContext(w, r)
 	err := c.BindJSON(&yuque)
 	if err != nil {
-		c.WriteJSON(http.StatusBadRequest, core.H{"status": http.StatusBadRequest})
+		c.WriteJSON(http.StatusBadRequest, con.H{"status": http.StatusBadRequest})
 		return
 	}
 
 	err = core.Validate(&yuque)
 	if err != nil {
-		c.WriteJSON(http.StatusNotAcceptable, core.H{"status": http.StatusNotAcceptable})
+		c.WriteJSON(http.StatusNotAcceptable, con.H{"status": http.StatusNotAcceptable})
 		return
 	}
 
@@ -32,9 +33,9 @@ func Repostory(w http.ResponseWriter, r *http.Request) {
 	s := service.NewService(Token["X-Auth-Token"][0])
 	resp, err := s.Repo(yuque.GroupID)
 	if err != nil {
-		c.WriteJSON(http.StatusNotAcceptable, core.H{"status": http.StatusNotAcceptable})
+		c.WriteJSON(http.StatusNotAcceptable, con.H{"status": http.StatusNotAcceptable})
 		return
 	}
 
-	c.WriteJSON(http.StatusOK, core.H{"status": http.StatusOK, "Repo": resp})
+	c.WriteJSON(http.StatusOK, con.H{"status": http.StatusOK, "Repo": resp})
 }
