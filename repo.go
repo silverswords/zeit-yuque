@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	service "github.com/silverswords/clouds/openapi/yuque"
-	core "github.com/silverswords/clouds/pkgs/http"
+	util "github.com/silverswords/clouds/pkgs/http"
 	con "github.com/silverswords/clouds/pkgs/http/context"
 )
 
@@ -23,7 +23,7 @@ func Repostory(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = core.Validate(&yuque)
+	err = util.Validate(&yuque)
 	if err != nil {
 		c.WriteJSON(http.StatusConflict, con.H{"status": http.StatusConflict})
 		return

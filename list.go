@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	service "github.com/silverswords/clouds/openapi/yuque"
-	core "github.com/silverswords/clouds/pkgs/http"
+	util "github.com/silverswords/clouds/pkgs/http"
 	con "github.com/silverswords/clouds/pkgs/http/context"
 )
 
@@ -22,7 +22,7 @@ func BookList(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := core.Validate(&yuque); err != nil {
+	if err := util.Validate(&yuque); err != nil {
 		c.WriteJSON(http.StatusConflict, con.H{"status": http.StatusConflict})
 		return
 	}
