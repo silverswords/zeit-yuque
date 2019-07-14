@@ -12,7 +12,7 @@ import (
 func Repostory(w http.ResponseWriter, r *http.Request) {
 	var (
 		yuque struct {
-			GroupID string `zeit:"required"`
+			GroupID string `json:"group_id" zeit:"required"`
 		}
 	)
 

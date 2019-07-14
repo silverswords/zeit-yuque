@@ -12,8 +12,8 @@ import (
 func BookDetail(w http.ResponseWriter, r *http.Request) {
 	var (
 		yuque struct {
-			RepoID string `zeit:"required"`
-			ID     string `zeit:"required"`
+			RepoID string `json:"repo_id" zeit:"required"`
+			ID     string `json:"id"      zeit:"required"`
 		}
 	)
 

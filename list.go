@@ -12,7 +12,7 @@ import (
 func BookList(w http.ResponseWriter, r *http.Request) {
 	var (
 		yuque struct {
-			RepoID string `zeit:"required"`
+			RepoID string `json:"repo_id" zeit:"required"`
 		}
 	)
 
