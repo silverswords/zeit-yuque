@@ -8,7 +8,7 @@ import (
 	con "github.com/silverswords/clouds/pkgs/http/context"
 )
 
-// BookList -
+// BookList API for a list of repositories in the group
 func BookList(w http.ResponseWriter, r *http.Request) {
 	var (
 		yuque struct {

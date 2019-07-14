@@ -8,7 +8,7 @@ import (
 	con "github.com/silverswords/clouds/pkgs/http/context"
 )
 
-// BookDetail -
+// BookDetail API for a document detail contents
 func BookDetail(w http.ResponseWriter, r *http.Request) {
 	var (
 		yuque struct {
