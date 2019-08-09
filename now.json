@@ -5,8 +5,11 @@
         { "src": "/*.go", "use": "@now/go" }
     ],
     "routes": [
-        { "src": "/api/v1/yuque/list", "dest": "/list.go" },
-        { "src": "/api/v1/yuque/details", "dest": "/details.go" },
-        { "src": "/api/v1/yuque/repo", "dest": "/repo.go" }
+        { "src": "/api/v1/yuque/user",       "dest": "/user.go" },
+        { "src": "/api/v1/yuque/user/repo",  "dest": "/user_repo.go" },
+        { "src": "/api/v1/yuque/user/group", "dest": "/user_group.go" },
+        { "src": "/api/v1/yuque/list",       "dest": "/list.go" },
+        { "src": "/api/v1/yuque/details",    "dest": "/details.go" },
+        { "src": "/api/v1/yuque/repo",       "dest": "/repo.go" }
     ]
 }
