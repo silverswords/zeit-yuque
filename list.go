@@ -29,6 +29,11 @@ func BookList(w http.ResponseWriter, r *http.Request) {
 
 	token := c.Request.Header
 	t := token.Get("X-Auth-Token")
+	if t == "" {
+		c.WriteJSON(http.StatusUnauthorized, con.H{"status": http.StatusUnauthorized})
+		return
+	}
+
 	s := service.NewService(t)
 
 	resp, err := s.List(yuque.RepoID)
