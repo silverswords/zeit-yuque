@@ -1,8 +1,8 @@
 github.com/golang/protobuf v1.2.0/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5yJMmIC1U=
 github.com/google/go-github/v27 v27.0.4/go.mod h1:/0Gr8pJ55COkmv+S/yPKCczSkUPIM/LnFyubufRNIS0=
 github.com/google/go-querystring v1.0.0/go.mod h1:odCYkC5MyYFN7vkCjXpyrEuKhc/BUO6wN/zVPAxq5ck=
-github.com/silverswords/clouds v0.0.0-20190809071419-5a4c2716144f h1:PCwovZBTT3/J8lbJVPux3pRH9jidU/HIbM1OD0nXDzA=
-github.com/silverswords/clouds v0.0.0-20190809071419-5a4c2716144f/go.mod h1:Oe5kkFFkB1NCPNDA+0qwKNDyws34MctNy6asNboqTfM=
+github.com/silverswords/clouds v0.0.0-20190809073819-c70ddfd2353f h1:WGmk+kgU38kGZHnQhqT52zXcieRvQQA3rUEjzEYmtLA=
+github.com/silverswords/clouds v0.0.0-20190809073819-c70ddfd2353f/go.mod h1:Oe5kkFFkB1NCPNDA+0qwKNDyws34MctNy6asNboqTfM=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/net v0.0.0-20190311183353-d8887717615a/go.mod h1:t9HGtf8HONx5eT2rtn7q6eTqICYqUVnKs3thJo3Qplg=
 golang.org/x/oauth2 v0.0.0-20180821212333-d2e6202438be/go.mod h1:N/0e6XlmueqKjAGxoOufVs8QHGRruUQn6yWY3a++T0U=
